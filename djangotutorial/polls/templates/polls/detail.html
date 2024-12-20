@@ -1,0 +1,14 @@
+{% if question %}
+    <p>Question {{question.id}}: {{question.question_text}}</p>
+    {% if choice_list %}
+        <ul>
+        {% for choice in choice_list %}
+            <li><p>{{choice.choice_text}}</p></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No choices are available.</p>
+    {% endif %}
+{% else %}
+    <p>Question not found</p>
+{% endif %}
