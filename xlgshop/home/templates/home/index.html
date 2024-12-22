@@ -1,8 +1,12 @@
 <p>This is the XLG Shop<p>
-{% if latest_item_list %}
+{% if category_list %}
     <ul>
-    {% for item in latest_item_list %}
-        <li><a href={% url "details" item.item_id%}>{{ item.item_name }}</a></li>
+    {% for category in category_list %}
+        <li>
+            <a href={% url "categories" category.name%}>
+                {{ category.name }}
+            </a>
+        </li>
     {% endfor %}
     </ul>
 {% else %}

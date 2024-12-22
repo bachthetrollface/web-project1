@@ -1,0 +1,19 @@
+<p>This is the XLG Shop</p>
+{% if item %}
+    <p>You are viewing: {{item.name}}</p>
+    <ul>
+        <li>Type: {{item.category}}</li>
+        {% if available_specs %}
+            <li>Available colors and sizes:</li>
+            <ul>
+                {% for spec in available_specs %}
+                    <li>{{spec.color}} - {{spec.size}}: {{spec.price}} VND</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <li>No colors or sizes are available yet</li>
+        {% endif %}
+    </ul>
+{% else %}
+    <p>Item not found</p>
+{% endif %}

@@ -1,0 +1,15 @@
+<p>This is the XLG Shop</p>
+{% if item_list %}
+    <p>Available items for the {{category}} category:</p>
+    <ul>
+        {% for item in item_list %}
+            <li>
+                <a href={% url "details" item.id %}>
+                    {{item.name}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No items are available for the {{category}} category</p>
+{% endif %}
