@@ -1,11 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-"""
-table for saving purchases
+payment_methods = [(i,i) for i in ["VNPayQR", "MoMo", "Credit Card", "ATM Card", "Debit Card"]]
 
-"""
 
 class Category(models.Model):
     name = models.CharField("Name", max_length=20, primary_key=True)
@@ -29,7 +28,7 @@ class ItemSpecification(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False, null=False)
     size = models.CharField("Size", max_length=3, blank=False, null=False)
     color = models.CharField("Color", max_length=20, blank=False, null=False)
-    price = models.FloatField("Price", blank=False)
+    price = models.FloatField("Price", blank=False, null=False)
     available_qty = models.IntegerField("Amount in stock", default=0, blank=True, null=True)
     sold_qty = models.IntegerField("Amount sold", default=0, blank=True, null=True)
     
@@ -54,21 +53,29 @@ class ItemSpecification(models.Model):
 
 
 class Purchase(models.Model):
-    name = models.CharField("Name", max_length=30, blank=False, null=False)
-    email = models.EmailField("Email", max_length=50, blank=False, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     price = models.FloatField("Price", blank=False, null=False)
+    first_name = models.CharField("First name", max_length=20, blank=False, null=False)
+    last_name = models.CharField("Last name", max_length=20, blank=False, null=False)
+    phone_number = models.CharField("Phone number", max_length=15, blank=False, null=False)
+    email = models.EmailField("Email", max_length=45, blank=False, null=False)
+    address = models.CharField("Address", max_length=100, blank=False, null=False)
+    payment_method = models.CharField("Payment method", max_length=20, blank=False, null=False, choices=payment_methods)
     # save number of items bought?
+    # names, phone number and email are set default as information from user; 
+    # can be changed by user into information of receiver
 
 
 class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False, null=False)
-    rating = models.IntegerField("Rating", default=5)
+    rating = models.PositiveIntegerField("Rating", default=5)
     review = models.CharField("Review", max_length=200, default="", blank=True, null=True)
     
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(rating__lte=5) & models.Q(rating__gte=0), name='rating_between_0_and_5'
+                condition=models.Q(rating__lte=5), name='rating_between_0_and_5'
             )
         ]
     
@@ -77,9 +84,17 @@ class Review(models.Model):
 
 
 class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     item = models.ForeignKey(ItemSpecification, on_delete=models.CASCADE, blank=False, null=False)
     qty = models.PositiveIntegerField("Quantity", blank=False, null=False)
     add_time = models.DateTimeField("Time added", auto_now_add=True)
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'item'], name="user_and_item_unique"
+            )
+        ]
+    
     def __str__(self):
-        return f"{self.item} x{self.qty}"
+        return f"{self.user.username}: {self.item} x{self.qty}"
