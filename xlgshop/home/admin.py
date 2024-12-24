@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Item, Category, Specification, Purchase, Review
+from .models import Item, Category, ItemSpecification, Purchase, Review
 
 # Register your models here.
 admin.site.register(Item)
 admin.site.register(Category)
-admin.site.register(Specification)
+admin.site.register(ItemSpecification)
 admin.site.register(Purchase)
 admin.site.register(Review)
 

@@ -1,11 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
-from .models import Item, Category, Specification
-# from ..website.utils import Cart
+from .models import Item, Category, ItemSpecification
 
 # Create your views here.
-
-# cart = Cart()
 
 def index(request):
     category_list = Category.objects.order_by("name")
@@ -44,7 +41,7 @@ def details(request, item_id):
         item = None
     if item is not None:
         try:
-            available_specs = get_list_or_404(Specification, item=item)
+            available_specs = get_list_or_404(ItemSpecification, item=item)
         except:
             available_specs = None
     else:
@@ -54,3 +51,7 @@ def details(request, item_id):
         'available_specs': available_specs
     }
     return render(request, "home/details.html", context)
+
+
+def cart_index(request):
+    return render(request, "home/cart_index.html", dict())

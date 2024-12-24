@@ -25,13 +25,13 @@ class Item(models.Model):
         return f"{self.id} - {self.name}"
 
 
-class Specification(models.Model):
+class ItemSpecification(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False, null=False)
     size = models.CharField("Size", max_length=3, blank=False, null=False)
     color = models.CharField("Color", max_length=20, blank=False, null=False)
     price = models.FloatField("Price", blank=False)
-    available_count = models.IntegerField("Amount in stock", default=0, blank=True, null=True)
-    sold_count = models.IntegerField("Amount sold", default=0, blank=True, null=True)
+    available_qty = models.IntegerField("Amount in stock", default=0, blank=True, null=True)
+    sold_qty = models.IntegerField("Amount sold", default=0, blank=True, null=True)
     
     class Meta:
         constraints = [
@@ -39,10 +39,10 @@ class Specification(models.Model):
                 fields=['item', 'size', 'color'], name='primary_key'
             ),
             models.CheckConstraint(
-                condition=models.Q(available_count__gte=0), name='available_count_nonnegative'
+                condition=models.Q(available_qty__gte=0), name='available_qty_nonnegative'
             ),
             models.CheckConstraint(
-                condition=models.Q(sold_count__gte=0), name='sold_count_nonnegative'
+                condition=models.Q(sold_qty__gte=0), name='sold_qty_nonnegative'
             ),
             models.CheckConstraint(
                 condition=models.Q(price__gte=0), name='price_nonnegative'
@@ -71,3 +71,15 @@ class Review(models.Model):
                 condition=models.Q(rating__lte=5) & models.Q(rating__gte=0), name='rating_between_0_and_5'
             )
         ]
+    
+    def __str__(self):
+        return f"{self.pk}. {self.item}"
+
+
+class Cart(models.Model):
+    item = models.ForeignKey(ItemSpecification, on_delete=models.CASCADE, blank=False, null=False)
+    qty = models.PositiveIntegerField("Quantity", blank=False, null=False)
+    add_time = models.DateTimeField("Time added", auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.item} x{self.qty}"
