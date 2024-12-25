@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from .models import Item, Category, ItemSpecification
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -17,16 +17,55 @@ def index(request):
 def about(request):
     return render(request, "home/about.html", dict()) # add about.html
 
-
-def log_in(request):
-    pass
+def log_in(request:HttpRequest):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect("index") # return to current page instead of just home page
+        else:
+            # displays message
+            return render(request, "home/login.html", {'message': "Invalid username and/or password"})
+    else:
+        if request.user.is_authenticated:
+            return redirect("index") # return to current page
+        else:
+            return render(request, "home/login.html")
 
 def log_out(request):
     logout(request)
-    return redirect("index")
+    return redirect("index") # return to current page
     
-def register(request):
-    pass
+def register(request:HttpRequest):
+    if request.method == "POST":
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
+        username = request.POST['username']
+        email = request.POST['email']
+
+        # check password confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "home/register.html", {'message': "Passwords must match."})
+
+        # try if username is available
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+        except:
+            return render(request, "home/register.html", {'message': "Username already taken."})
+        
+        if request.user.is_authenticated:
+            logout(request)
+        login(request, user)
+        return redirect("index")
+    else:
+        return render(request, "home/register.html")
 
 
 def categories(request, category_name):
