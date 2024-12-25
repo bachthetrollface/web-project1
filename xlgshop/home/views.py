@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from .models import Item, Category, ItemSpecification
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
