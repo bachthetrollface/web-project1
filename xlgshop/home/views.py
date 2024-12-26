@@ -16,7 +16,7 @@ def index(request):
 
 
 def about(request):
-    return render(request, "home/about.html", dict()) # add about.html
+    return render(request, "home/about.html") # add about.html
 
 def log_in(request:HttpRequest):
     if request.method == 'POST':
@@ -106,5 +106,13 @@ def details(request, item_id):
     return render(request, "home/details.html", context)
 
 
+def query(request):
+    return render(request, "home/query.html")
+
+
 def cart_index(request):
-    return render(request, "home/cart_index.html", dict())
+    return render(request, "home/cart_index.html")
+
+
+def checkout(request):
+    return render(request, "home/checkout.html")
