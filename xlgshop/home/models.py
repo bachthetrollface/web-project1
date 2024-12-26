@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 payment_methods = [(i,i) for i in ["VNPayQR", "MoMo", "Credit Card", "ATM Card", "Debit Card"]]
+item_status = [(i,i) for i in ['Not Delivered', 'Delivering', 'Received', 'Returned']]
 
 
 class Category(models.Model):
@@ -21,7 +22,7 @@ class Item(models.Model):
     description = models.CharField("Description", max_length=200, default="", blank=True, null=True)
     
     def __str__(self):
-        return f"{self.id} - {self.name}"
+        return f"[{self.id}] {self.name}"
 
 
 class ItemSpecification(models.Model):
@@ -49,7 +50,7 @@ class ItemSpecification(models.Model):
         ]
     
     def __str__(self):
-        return f"{self.item.__str__()} - {self.size} - {self.color}"
+        return f"{self.item} - {self.size} - {self.color}"
 
 
 class Purchase(models.Model):
@@ -61,9 +62,29 @@ class Purchase(models.Model):
     email = models.EmailField("Email", max_length=45, blank=False, null=False)
     address = models.CharField("Address", max_length=100, blank=False, null=False)
     payment_method = models.CharField("Payment method", max_length=20, blank=False, null=False, choices=payment_methods)
-    # save number of items bought?
+    add_time = models.DateTimeField("Time of purchase", auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.pk}] {self.user.username} - {self.add_time}"
     # names, phone number and email are set default as information from user; 
     # can be changed by user into information of receiver
+    
+
+class OrderList(models.Model):
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE, blank=False, null=False)
+    item = models.ForeignKey(ItemSpecification, on_delete=models.DO_NOTHING, blank=False, null=False)
+    qty = models.PositiveIntegerField("Quantity", blank=False, null=False)
+    status = models.CharField("Status", max_length=20, blank=False, null=False, choices=item_status)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['purchase', 'item'], name="purchase_and_item_unique"
+            )
+        ]
+    
+    def __str__(self):
+        return f"{self.purchase} - {self.item}"
 
 
 class Review(models.Model):
@@ -87,7 +108,6 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     item = models.ForeignKey(ItemSpecification, on_delete=models.CASCADE, blank=False, null=False)
     qty = models.PositiveIntegerField("Quantity", blank=False, null=False)
-    add_time = models.DateTimeField("Time added", auto_now_add=True)
     
     class Meta:
         constraints = [
