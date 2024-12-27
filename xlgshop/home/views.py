@@ -16,7 +16,7 @@ def index(request):
 
 
 def about(request):
-    return render(request, "home/about.html") # add about.html
+    return render(request, "home/about.html") # add about.html; maybe dont need
 
 def log_in(request:HttpRequest):
     if request.method == 'POST':
@@ -107,12 +107,18 @@ def details(request, item_id):
 
 
 def query(request):
+    # action listener to update page as user types keywords?
+    # query on Item table, returns records with keywords in their names
     return render(request, "home/query.html")
 
 
 def cart_index(request):
+    # show items in cart of the current user
+    # allows quantity update, item removal
     return render(request, "home/cart_index.html")
 
 
 def checkout(request):
+    # lets user fill in information (see Purchase in models)
+    # email, first name, last name is set default as info from user
     return render(request, "home/checkout.html")
