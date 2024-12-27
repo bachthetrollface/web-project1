@@ -112,12 +112,14 @@ def query(request):
     return render(request, "home/query.html")
 
 
+@login_required
 def cart_index(request):
     # show items in cart of the current user
     # allows quantity update, item removal
     return render(request, "home/cart_index.html")
 
 
+@login_required
 def checkout(request):
     # lets user fill in information (see Purchase in models)
     # email, first name, last name is set default as info from user
