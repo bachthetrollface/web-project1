@@ -14,40 +14,39 @@
 
 
 <body>
-    <!-- Navigation Bar -->
+
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <a class="navbar-brand fw-bold" href="{% url 'index' %}" style="font-weight: bold;">XLG Shop</a>
 
             <div class="nav-buttons">
-                <!-- Giỏ hàng -->
                 <button id="cart-button" class="btn btn-outline-dark btn-lg position-relative" onclick="toggleCart()">
-                    🛒 Cart
+                    🛒 Giỏ Hàng
                     <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                 </button>
             </div>
             
             <div>
                 {% if not user.is_authenticated %}
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Log In</button>
-                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Register</button>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Đăng nhập</button>
+                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Đăng ký</button>
                 {% else %}
-                    <p>Welcome, {{user.username}}</p>
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Log Out</button>
+                    <p>Xin chào, {{user.username}}</p>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Đăng xuất</button>
                 {% endif %}
             </div>
         </div>
     </nav>
 
     <div id="cart-modal" class="cart-modal">
-        <h4>Your Cart</h4>
+        <h4>Giỏ hàng của bạn</h4>
         <ul id="cart-items"></ul>
         <p class="cart-total">
-            Total: <span id="cart-total" class="price">0 VND</span>
+            Tổng: <span id="cart-total" class="price">0 VND</span>
         </p>
         <div class="cart-actions">
-            <button class="btn-primary" onclick="checkout()">Checkout</button>
-            <button class="btn-secondary" onclick="toggleCart()">Close</button>
+            <button class="btn-primary" onclick="checkout()">Thanh toán</button>
+            <button class="btn-secondary" onclick="toggleCart()">Đóng</button>
         </div>
     </div>
     
@@ -57,10 +56,8 @@
         </div>
     </header>
     
-    <!-- Categories Grid -->
     <div class="container mt-4">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <!-- Category Card -->
             {% for category in category_list %}
             <div class="col">
                 <div class="category-card">
@@ -69,7 +66,7 @@
                 </div>
             </div>
             {% endfor %}
-            <!-- No categories available -->
+            
             {% if not category_list %}
             <p class="mt-3">Không có danh mục nào để hiển thị.</p>
             {% endif %}

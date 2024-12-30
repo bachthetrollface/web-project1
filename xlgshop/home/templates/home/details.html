@@ -18,36 +18,35 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <a class="navbar-brand fw-bold" href="{% url 'index' %}" style="font-weight: bold;">XLG Shop</a>
-            
+
             <div class="nav-buttons">
-                <!-- Giỏ hàng -->
                 <button id="cart-button" class="btn btn-outline-dark btn-lg position-relative" onclick="toggleCart()">
-                    🛒 Cart
+                    🛒 Giỏ Hàng
                     <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                 </button>
             </div>
-
+            
             <div>
                 {% if not user.is_authenticated %}
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Log In</button>
-                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Register</button>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Đăng nhập</button>
+                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Đăng ký</button>
                 {% else %}
-                    <p>Welcome, {{user.username}}</p>
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Log Out</button>
+                    <p>Xin chào, {{user.username}}</p>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Đăng xuất</button>
                 {% endif %}
             </div>
         </div>
     </nav>
 
     <div id="cart-modal" class="cart-modal">
-        <h4>Your Cart</h4>
+        <h4>Giỏ hàng của bạn</h4>
         <ul id="cart-items"></ul>
         <p class="cart-total">
-            Total: <span id="cart-total" class="price">0 VND</span>
+            Tổng: <span id="cart-total" class="price">0 VND</span>
         </p>
         <div class="cart-actions">
-            <button class="btn-primary" onclick="checkout()">Checkout</button>
-            <button class="btn-secondary" onclick="toggleCart()">Close</button>
+            <button class="btn-primary" onclick="checkout()">Thanh toán</button>
+            <button class="btn-secondary" onclick="toggleCart()">Đóng</button>
         </div>
     </div>
 
@@ -60,14 +59,14 @@
     {% if item %}
     <div class="item-box">
         <div class="item-image">
-            <img src="{{ item.image_url }}" alt="{{ item.name }}" />
+            <img src="{% static item.img_path %}" alt="{{ item.name }}" />
         </div>
         <div class="item-info">
             <p class="item-title">{{ item.name }}</p>
             <ul class="item-details">
-                <li>Type: <span class="item-category">{{ item.category }}</span></li>
+                <li>Loại: <span class="item-category">{{ item.category }}</span></li>
                 {% if available_specs %}
-                    <li style="font-size: 1.4rem; font-weight: bold;">Available:</li>
+                    <li style="font-size: 1.4rem; font-weight: bold;">Màu sắc và kích cỡ:</li>
                     <ul class="spec-list">
                         {% for spec in available_specs %}
                             <li>
@@ -76,19 +75,19 @@
                                 <span class="spec-price">{{ spec.price }} VND</span>
                             </li>
                             <button class="buy-now-btn" onclick="handleBuyNow('{{spec.item.name}}, {{spec.color}}, {{spec.size}}', {{ spec.price }});">
-                                Add to Cart
+                                Thêm vào giỏ hàng
                             </button>
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <li>No colors or sizes available</li>
+                    <li>Hiện chưa có thông tin nào cho sản phẩm này.</li>
                 {% endif %}
             </ul>
 
         </div>
     </div>
     {% else %}
-    <p>Item not found</p>
+    <p>Không tìm thấy sản phẩm!</p>
     {% endif %}
 
 </body>

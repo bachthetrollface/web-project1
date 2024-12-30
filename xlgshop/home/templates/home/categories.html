@@ -20,34 +20,33 @@
             <a class="navbar-brand fw-bold" href="{% url 'index' %}" style="font-weight: bold;">XLG Shop</a>
 
             <div class="nav-buttons">
-                <!-- Giỏ hàng -->
                 <button id="cart-button" class="btn btn-outline-dark btn-lg position-relative" onclick="toggleCart()">
-                    🛒 Cart
+                    🛒 Giỏ Hàng
                     <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                 </button>
             </div>
             
             <div>
                 {% if not user.is_authenticated %}
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Log In</button>
-                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Register</button>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Đăng nhập</button>
+                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Đăng ký</button>
                 {% else %}
-                    <p>Welcome, {{user.username}}</p>
-                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Log Out</button>
+                    <p>Xin chào, {{user.username}}</p>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Đăng xuất</button>
                 {% endif %}
             </div>
         </div>
     </nav>
 
     <div id="cart-modal" class="cart-modal">
-        <h4>Your Cart</h4>
+        <h4>Giỏ hàng của bạn</h4>
         <ul id="cart-items"></ul>
         <p class="cart-total">
-            Total: <span id="cart-total" class="price">0 VND</span>
+            Tổng: <span id="cart-total" class="price">0 VND</span>
         </p>
         <div class="cart-actions">
-            <button class="btn-primary" onclick="checkout()">Checkout</button>
-            <button class="btn-secondary" onclick="toggleCart()">Close</button>
+            <button class="btn-primary" onclick="checkout()">Thanh toán</button>
+            <button class="btn-secondary" onclick="toggleCart()">Đóng</button>
         </div>
     </div>
     
@@ -59,20 +58,20 @@
 
     {% if item_list %}
         <div class="container mt-4">
-            <p>Available items for the {{category}} category:</p>
+            <p>Các sản phẩm {{category}} hiện có:</p>
             <div class="product-container">
                 {% for item in item_list %}
                 <div class="product-card">
-                    <img src="{{ item.image_url }}" alt="{{ item.name }} Image">
+                    <img src="{% static item.img_path %}" alt="{{ item.name }} Image">
                     <div class="product-name">{{ item.name }}</div>
-                    <a href="{% url 'details' item.id %}">View Details</a>
+                    <a href="{% url 'details' item.id %}">Xem sản phẩm</a>
                 </div>
                 {% endfor %}
             </div>
         </div>
     {% else %}
         <div class="container mt-4">
-            <p>No items are available for the {{category}} category.</p>
+            <p>Hiện không có sản phẩm {{category}} nào.</p>
         </div>
     {% endif %}
 </body>

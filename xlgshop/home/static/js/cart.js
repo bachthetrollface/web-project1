@@ -3,7 +3,7 @@ let cart = [];
 function addToCart(itemName, itemPrice) {
     const existingItem = cart.find(item => item.name === itemName);
     if (existingItem) {
-        existingItem.quantity += 1; // Tăng số lượng
+        existingItem.quantity += 1;
     } else {
         cart.push({ name: itemName, price: itemPrice, quantity: 1 });
     }
@@ -37,9 +37,8 @@ function toggleCart() {
     cartModal.classList.toggle('visible');
 }
 
-// Thanh toán
 function checkout() {
-    alert('Thank you for your purchase!');
+    alert('Cảm ơn bạn đã mua hàng!');
     cart = []; 
     updateCartDisplay();
     toggleCart();
@@ -47,5 +46,5 @@ function checkout() {
 
 function handleBuyNow(itemName, itemPrice) {
     addToCart(itemName, itemPrice);
-    alert(`${itemName} has been added to your cart!`);
+    alert(`${itemName} đã được thêm vào giỏ hàng!`);
 }
