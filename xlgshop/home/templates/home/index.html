@@ -1,16 +1,61 @@
-<p>This is the XLG Shop<p>
-{% if category_list %}
-    <ul>
-    {% for category in category_list %}
-        <li>
-            <a href={% url "categories" category.name%}>
-                {{ category.name }}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No items are available.</p>
-{% endif %}
-<button type="button" onclick="window.location.href = '/login';">Log In</button>
-<button type="button" onclick="window.location.href = '/register';">Register</button>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>XLG Shop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+</head>
+
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a class="navbar-brand fw-bold" href="{% url 'index' %}" style="font-weight: bold;">XLG Shop</a>
+            <div>
+                {% if not user.is_authenticated %}
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/login';">Log In</button>
+                    <button class="btn btn-outline-success" type="button" onclick="window.location.href = '/register';">Register</button>
+                {% else %}
+                    <p>Welcome, {{user.username}}</p>
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href = '/logout';">Log Out</button>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <header class="bg-dark text-white" style="margin: 0; padding: 0;">
+        <div class="container-fluid p-0">
+            <img src="{% static 'img/newmoi.png' %}" alt="Description of image" style="width: 100%; height: auto;">
+        </div>
+    </header>
+    
+    <!-- Categories Grid -->
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <!-- Category Card -->
+            {% for category in category_list %}
+            <div class="col">
+                <div class="category-card">
+                    <div class="category-name">{{ category.name }}</div>
+                    <button class="btn btn-outline-primary view-category-btn" onclick="window.location.href = '{% url 'categories' category.name %}';">Xem thêm</button>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- No categories available -->
+            {% if not category_list %}
+            <p class="mt-3">Không có danh mục nào để hiển thị.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
