@@ -44,7 +44,7 @@ or
 127.0.0.1:8000/
 ```
 
-To close the server, press `control + C` (for MacOS and Windows) while on the terminal window. The key combination may vary depending on your OS, and is provided on the terminal when you launch the server.
+To close the server, press `control + C` (for MacOS) or `control + break` (for Windows) while on the terminal window. The key combination may vary depending on your OS, and is provided on the terminal when you launch the server.
 
 # Admin mode
 
@@ -61,5 +61,3 @@ or
 Then, log in using the following credentials:
 - Username: `admin`
 - Password: `notacommonpassword1`
-
-*Bug:* Cannot view Cart and Review records in admin site (can still add new records manually although not to be used)
