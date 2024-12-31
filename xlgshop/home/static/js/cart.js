@@ -1,4 +1,4 @@
-let cart = []; 
+let cart = JSON.parse(localStorage.getItem('cart')) || []; 
 
 function addToCart(itemName, itemPrice) {
     const existingItem = cart.find(item => item.name === itemName);
@@ -8,6 +8,7 @@ function addToCart(itemName, itemPrice) {
         cart.push({ name: itemName, price: itemPrice, quantity: 1 });
     }
     updateCartDisplay();
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 function updateCartDisplay() {
@@ -41,6 +42,7 @@ function checkout() {
     alert('Cảm ơn bạn đã mua hàng!');
     cart = []; 
     updateCartDisplay();
+    localStorage.removeItem('cart');
     toggleCart();
 }
 
@@ -48,3 +50,5 @@ function handleBuyNow(itemName, itemPrice) {
     addToCart(itemName, itemPrice);
     alert(`${itemName} đã được thêm vào giỏ hàng!`);
 }
+
+document.addEventListener('DOMContentLoaded', updateCartDisplay);
