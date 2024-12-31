@@ -28,7 +28,7 @@ def log_in(request:HttpRequest):
             return redirect("index") # return to current page instead of just home page
         else:
             # displays message
-            return render(request, "home/login.html", {'message': "Invalid username and/or password"})
+            return render(request, "home/login.html", {'message': "Tên đăng nhập hoặc mật khẩu không đúng."})
     else:
         if request.user.is_authenticated:
             return redirect("index") # return to current page
@@ -50,7 +50,7 @@ def register(request:HttpRequest):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "home/register.html", {'message': "Passwords must match."})
+            return render(request, "home/register.html", {'message': "Mật khẩu không trùng khớp."})
 
         # try if username is available
         try:
@@ -59,7 +59,7 @@ def register(request:HttpRequest):
             user.last_name = last_name
             user.save()
         except:
-            return render(request, "home/register.html", {'message': "Username already taken."})
+            return render(request, "home/register.html", {'message': "Tên đăng nhập này đã được sử dụng.\nHãy thử tên đăng nhập khác."})
         
         if request.user.is_authenticated:
             logout(request)
