@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-dq_^5t+^kg)(#_8%pj!b2%dohsdd0pk9b3g+dg_3t^t(%2$8bx
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'shop.xlg.gg'
+    
 ]
 
 
