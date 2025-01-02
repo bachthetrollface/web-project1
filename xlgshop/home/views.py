@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest
 from .models import Item, Category, ItemSpecification
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -59,7 +58,8 @@ def register(request:HttpRequest):
             user.last_name = last_name
             user.save()
         except:
-            return render(request, "home/register.html", {'message': "Tên đăng nhập này đã được sử dụng.\nHãy thử tên đăng nhập khác."})
+            return render(request, "home/register.html", 
+                          {'message': "Tên đăng nhập này đã được sử dụng.\nHãy thử tên đăng nhập khác."})
         
         if request.user.is_authenticated:
             logout(request)
@@ -110,17 +110,3 @@ def query(request):
     # action listener to update page as user types keywords?
     # query on Item table, returns records with keywords in their names
     return render(request, "home/query.html")
-
-
-@login_required
-def cart_index(request):
-    # show items in cart of the current user
-    # allows quantity update, item removal
-    return render(request, "home/cart_index.html")
-
-
-@login_required
-def checkout(request):
-    # lets user fill in information (see Purchase in models)
-    # email, first name, last name is set default as info from user
-    return render(request, "home/checkout.html")
