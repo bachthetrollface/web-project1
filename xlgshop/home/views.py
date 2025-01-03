@@ -106,7 +106,25 @@ def details(request, item_id):
     return render(request, "home/details.html", context)
 
 
-def query(request):
+def query(request:HttpRequest):
     # action listener to update page as user types keywords?
     # query on Item table, returns records with keywords in their names
-    return render(request, "home/query.html")
+    if request.method == "POST":
+        context = dict()
+        keyword = request.POST['keyword'].lower()
+        items = Item.objects.all()
+        results = []
+        for item in items:
+            if keyword in item.name.lower():
+                results.append(item)
+        if len(results) != 0:
+            context['results'] = results
+            context['message'] = f"Tìm thấy {len(results)} sản phẩm"
+        else:
+            context['message'] = "Không tìm thấy sản phẩm nào"
+        return render(request, "home/query.html", context)
+    else:
+        context = {
+            'message': "Nhập từ khoá để tìm kiếm"
+        }
+        return render(request, "home/query.html", context)
