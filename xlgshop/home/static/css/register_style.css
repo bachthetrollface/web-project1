@@ -1,0 +1,93 @@
+.cart-modal {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+}
+
+.cart-modal.visible {
+    display: block;
+}
+
+.cart-content h4 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.cart-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px;
+}
+
+.cart-content li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.cart-total {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.price {
+    color: #007bff; 
+    font-weight: bold;
+    font-size: 1.2rem; 
+    margin-top: 5px;
+}
+.navbar {
+    background: f7dcb0;
+}
+
+.navbar-brand {
+    font-weight: bold; 
+    font-size: 2.5rem; 
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-buttons .btn {
+    padding: 5px 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-buttons .btn-outline-primary {
+    background-color: transparent;
+    color: #007bff;
+}
+    
+.nav-buttons .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.nav-buttons .btn-outline-success {
+    background-color: transparent;
+    color: #28a745;
+}
+
+.nav-buttons .btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+#cart-button {
+    font-size: 1.5rem; 
+    padding: 5px 15px;
+}
