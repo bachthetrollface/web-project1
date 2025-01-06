@@ -14,9 +14,6 @@ def index(request):
     return render(request, "home/index.html", context)
 
 
-def about(request):
-    return render(request, "home/about.html") # add about.html; maybe dont need
-
 def log_in(request:HttpRequest):
     if request.method == 'POST':
         username = request.POST['username']
