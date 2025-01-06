@@ -20,8 +20,9 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <a class="navbar-brand fw-bold" href="{% url 'index' %}" style="font-weight: bold;">XLG Shop</a>
-            <a href="{% url 'query' %}" style="text-decoration: none; color: blue; cursor: pointer;">
-                <i class="fa-solid fa-magnifying-glass" style="color: #999999;"></i> Search
+            
+            <a id="search-button" class="btn btn-outline-dark btn-lg position-relative" href="{% url 'query' %}">
+                <i class="fa-solid fa-magnifying-glass" style="color: #999999;"></i> Tìm kiếm
             </a>
 
             <div class="nav-buttons">

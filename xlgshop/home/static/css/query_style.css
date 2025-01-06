@@ -238,3 +238,10 @@
 #search-button:active {
     transform: scale(0.9);
 }
+#search-button-link {
+    text-decoration: none; 
+    color: black; 
+    cursor: pointer; 
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+}

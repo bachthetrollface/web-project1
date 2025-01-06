@@ -150,3 +150,10 @@
     font-size: 1.5rem; 
     padding: 5px 15px; 
 }
+#search-button {
+    text-decoration: none; 
+    color: black; 
+    cursor: pointer; 
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+}

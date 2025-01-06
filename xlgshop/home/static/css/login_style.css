@@ -153,6 +153,13 @@
     font-size: 14px;
     color: #dc3545;
 }
+#search-button {
+    text-decoration: none; 
+    color: black; 
+    cursor: pointer; 
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+}
 
 @media (max-width: 768px) {
     #login-form {
