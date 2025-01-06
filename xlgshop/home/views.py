@@ -20,7 +20,11 @@ def about(request):
 def log_in(request:HttpRequest):
     if request.method == 'POST':
         username = request.POST['username']
+        if len(username) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập tên đăng nhập!"})
         password = request.POST['password']
+        if len(password) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập mật khẩu!"})
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
@@ -41,12 +45,22 @@ def log_out(request):
 def register(request:HttpRequest):
     if request.method == "POST":
         first_name = request.POST['firstname']
+        if len(first_name) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập tên của bạn!"})
         last_name = request.POST['lastname']
+        if len(last_name) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập họ của bạn!"})
         username = request.POST['username']
+        if len(username) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập tên đăng nhập!"})
         email = request.POST['email']
+        if len(email) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập email của bạn!"})
 
         # check password confirmation
         password = request.POST["password"]
+        if len(password) == 0:
+            return render(request, "home/login.html", {'message': "Hãy nhập mật khẩu!"})
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "home/register.html", {'message': "Mật khẩu không trùng khớp."})
@@ -107,7 +121,6 @@ def details(request, item_id):
 
 
 def query(request:HttpRequest):
-    # action listener to update page as user types keywords?
     # query on Item table, returns records with keywords in their names
     if request.method == "POST":
         context = dict()
